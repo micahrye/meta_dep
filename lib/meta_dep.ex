@@ -48,6 +48,7 @@ defmodule MetaDep do
     {"sweet_xml", %{"Licenses" => "MIT"}}
   ```
   """
+  require Logger
 
   @cruft_pattern ~r/[^a-zA-Z\d\s,\p{L}:\.]/u
   @cruft_url_pattern ~r/[^a-zA-Z\d\s,\p{L}:\/\.\-\_]/u
@@ -126,13 +127,23 @@ defmodule MetaDep do
   """
   @spec extract_meta_data(String.t(), String.t()) :: map()
   def extract_meta_data(path, dep \\ "*") do
+    IO.puts("Path.wildcard(path <> dep) = #{Path.wildcard(path <> dep)}")
+
     Path.wildcard(path <> dep)
     |> Enum.map(fn dep ->
-      {:ok, content} = File.read(dep <> "/hex_metadata.config")
-      content = String.replace(content, "\n", "")
       dep_name = String.replace(dep, @leading_path, "")
+      content =
+        case File.read(dep <> "/hex_metadata.config") do
+          {:ok, content} ->
+            content
+
+          {:error, reason} ->
+            Logger.error("Error getting meta data for #{dep_name}. Reason #{inspect reason}")
+            ""
+        end
 
       content
+      String.replace(content, "\n", "")
       |> String.split(@end_of_term)
       |> Enum.map(fn line -> {dep_name, extract(line)} end)
       |> Enum.filter(fn x -> if elem(x, 1) == "", do: false, else: elem(x, 1) end)
