@@ -8,8 +8,13 @@ defmodule MetaDep.MixProject do
       elixir: "~> 1.7",
       package: package(),
       start_permanent: Mix.env() == :prod,
+      dialyzer: [plt_add_apps: [:mix]],
       escript: [main_module: MetaDep],
-      deps: deps()
+      deps: deps(),
+      docs: [
+        main: "MetaDep",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -23,6 +28,8 @@ defmodule MetaDep.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+
       # Elixir and Erlang packages used for dev and testing
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:chumak, "1.3.0", only: :dev, runtime: false},

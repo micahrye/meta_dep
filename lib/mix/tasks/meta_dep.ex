@@ -21,6 +21,7 @@ defmodule Mix.Tasks.MetaDep do
 
   use Mix.Task
 
+  @spec run([binary()]) :: :ok
   def run(argv) do
     MetaDep.main(argv)
   end

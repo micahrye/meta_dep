@@ -10,6 +10,8 @@ defmodule MetaDep do
     * Maintainers - Maintanters of the project
     * Repo - Link to the git repo
 
+  NOTE: Parses hex_metadataa.config to obtain meta information
+
   ## Cmdline Options
     * `-l, --licences` returns all licenses for all deps
     * `-v, --verbose` returns all meta data for all deps
@@ -66,12 +68,12 @@ defmodule MetaDep do
     licences = opts["licences"]
     # If verbose or licences arg not given we default to `verbose = true`
     verbose = opts["verbose"] || not licences
-    meta_dep_map = extract_licenses(path, dep)
+    meta_dep = extract_meta_data(path, dep)
 
     cond do
-      verbose == true -> meta_dep_map
-      licences == true -> drop_fields(meta_dep_map, ["Maintainers", "Repo"])
-      true -> meta_dep_map
+      verbose == true -> meta_dep
+      licences == true -> drop_fields(meta_dep, ["Maintainers", "Repo"])
+      true -> meta_dep
     end
     |> print_to_console()
   end
@@ -118,11 +120,12 @@ defmodule MetaDep do
     end
   end
 
-  @spec extract_licenses(String.t(), String.t()) :: map()
-  def extract_licenses(path, dep \\ "*") do
-    # Make sure the dependencies are loaded
-    IO.puts("path <> dep = #{path <> dep}")
-
+  @doc """
+  `extract_meta_data/2` parses the file `hex_metadataa.config` to extract
+  meta data for dependencies.
+  """
+  @spec extract_meta_data(String.t(), String.t()) :: map()
+  def extract_meta_data(path, dep \\ "*") do
     Path.wildcard(path <> dep)
     |> Enum.map(fn dep ->
       {:ok, content} = File.read(dep <> "/hex_metadata.config")
@@ -138,18 +141,26 @@ defmodule MetaDep do
     |> Enum.reduce(
       %{},
       fn dep, acc ->
-        meta_dep_map(acc, dep)
+        update_meta_dep(acc, dep)
       end
     )
   end
 
-  @spec extract_licenses() :: map()
-  def extract_licenses() do
-    extract_licenses("./deps/", "*")
+  @doc """
+  `extract_meta_data/0` call  `extract_meta_data/2` with default values
+  """
+  @spec extract_meta_data() :: map()
+  def extract_meta_data() do
+    extract_meta_data("./deps/", "*")
   end
 
-  @spec meta_dep_map(map(), tuple()) :: map()
-  def meta_dep_map(m, dep) do
+  @doc """
+  `update_meta_dep/2` expects a map representing the meta information for
+  dependencies and a tulip object resulting from parsing meta file. The
+  map is updated with information from tulple and returned.
+  """
+  @spec update_meta_dep(map(), tuple()) :: map()
+  def update_meta_dep(m, dep) do
     key = elem(dep, 0)
     nested_key = elem(elem(dep, 1), 0)
     value = elem(elem(dep, 1), 1)
@@ -166,6 +177,10 @@ defmodule MetaDep do
     put_in(md, [key, nested_key], value)
   end
 
+  @doc """
+  `print_to_console/1` prints the map representing the meta information for
+  dependencies.
+  """
   @spec print_to_console(map()) :: :ok
   def print_to_console(meta_dep) do
     IO.puts("")
@@ -178,17 +193,14 @@ defmodule MetaDep do
     {"Licenses",
      dirty_license
      |> replace_common()
-     |> String.replace(~r/licenses,\s+/i, "")
-    }
-
+     |> String.replace(~r/licenses,\s+/i, "")}
   end
 
   defp extract("Maintaners" <> dirty_maintainers) do
     {"Maintainers",
      dirty_maintainers
      |> replace_common()
-     |> String.replace(~r/maintainers,\s+/i, "")
-    }
+     |> String.replace(~r/maintainers,\s+/i, "")}
   end
 
   defp extract("Repo" <> dirty_repo_link) do
@@ -222,10 +234,10 @@ defmodule MetaDep do
   require IEx
 
   @spec drop_fields(map(), [String.t()]) :: map()
-  defp drop_fields(meta_dep_map, fields) do
-    Enum.reduce(meta_dep_map, %{}, fn key, acc ->
+  defp drop_fields(meta_dep, fields) do
+    Enum.reduce(meta_dep, %{}, fn key, acc ->
       k = elem(key, 0)
-      Map.put(acc, k, Map.drop(meta_dep_map[k], fields))
+      Map.put(acc, k, Map.drop(meta_dep[k], fields))
     end)
   end
 end

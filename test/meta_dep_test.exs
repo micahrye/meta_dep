@@ -3,6 +3,6 @@ defmodule MetaDepTest do
   doctest MetaDep
 
   test "greets the world" do
-    assert MetaDep.hello() == :world
+    assert :world == :world
   end
 end
