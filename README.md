@@ -4,6 +4,8 @@ or mix task. MetaDep is a convenience app that allows you to list
 meta information about all project dependencies. It supports a number
 of cmdline arguments
 
+Full documentation can be found at https://hexdocs.pm/meta_dep/0.1.0
+
 ## Installation
 
 The package can be installed by adding `meta_dep` to your list of
