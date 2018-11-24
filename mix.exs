@@ -11,6 +11,7 @@ defmodule MetaDep.MixProject do
       dialyzer: [plt_add_apps: [:mix]],
       escript: [main_module: MetaDep],
       deps: deps(),
+      description: description(),
       docs: [
         main: "MetaDep",
         extras: ["README.md"]
@@ -41,6 +42,12 @@ defmodule MetaDep.MixProject do
     ]
   end
 
+  defp description() do
+    """
+    List meta information for project dependencies such as, licences, maintainers, repo links.
+    """
+  end
+
   defp package do
     [
       files: [
@@ -51,7 +58,7 @@ defmodule MetaDep.MixProject do
       ],
       maintainers: ["Micah Rye"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/micahrye"},
+      links: %{"GitHub" => "https://github.com/micahrye/meta_dep"},
     ]
   end
 end
