@@ -28,6 +28,13 @@ cmdline as follows:
 $ mix meta_dep
 ```
 
+### Mix Task Usage
+
+```
+$ mix meta_dep -p ./deps -ld bunt
+{"bunt", %{"Licenses" => "MIT, Apache2"}}
+```
+
 See `MetaDep` for complete documentation and usage examples.
 
 ## Escript
@@ -43,4 +50,40 @@ escript locally be doing the following:
 
 ```bash
 $ mix escript.install
+```
+
+### Escript Usage
+
+```bash
+$ meta_dep -p ./deps -ld bunt
+{"bunt", %{"Licenses" => "MIT, Apache2"}}
+```
+
+### More Mix Task Usage Examples
+
+```
+$ mix meta_dep -p ./deps -ld bunt
+{"bunt", %{"Licenses" => "MIT, Apache2"}}
+
+$ mix meta_dep -p ./deps -vd bunt
+{"bunt",
+  %{
+    "Licenses" => "MIT, Apache2",
+    "Maintainers" => "René Föhring",
+    "Repo" => "https://github.com/rrrene/bunt"
+  }}
+
+$ mix meta_dep -l
+  {"bunt", %{"Licenses" => "MIT, Apache2"}}
+  {"chumak", %{"Licenses" => "MPLv2"}}
+  {"cowboy", %{"Licenses" => "ISC"}}
+  {"cowlib", %{"Licenses" => "ISC"}}
+  {"jason", %{"Licenses" => "Apache 20"}}
+  {"licensir", %{"Licenses" => "MIT"}}
+  {"mime", %{"Licenses" => "Apache 2"}}
+  {"plug", %{"Licenses" => "Apache 2"}}
+  {"plug_cowboy", %{"Licenses" => "Apache 2"}}
+  {"plug_crypto", %{"Licenses" => "Apache 2"}}
+  {"ranch", %{"Licenses" => "ISC"}}
+  {"sweet_xml", %{"Licenses" => "MIT"}}
 ```
