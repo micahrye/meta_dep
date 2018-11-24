@@ -74,7 +74,7 @@ $ mix meta_dep -p ./deps -vd bunt
   }}
 
 $ mix meta_dep -l
-  {"bunt", %{"Licenses" => "MIT, Apache2"}}
+  {"bunt", %{"Licenses" => "MIT"}}
   {"chumak", %{"Licenses" => "MPLv2"}}
   {"cowboy", %{"Licenses" => "ISC"}}
   {"cowlib", %{"Licenses" => "ISC"}}
