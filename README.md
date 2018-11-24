@@ -14,7 +14,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:meta_dep, "~> 0.1.0", only: :dev, runtime: false}
+    {:meta_dep, "~> 0.1.1", only: :dev, runtime: false}
   ]
 end
 ```
