@@ -32,7 +32,7 @@ $ mix meta_dep
 
 ```
 $ mix meta_dep -p ./deps -ld bunt
-{"bunt", %{"Licenses" => "MIT, Apache2"}}
+{"bunt", %{"Licenses" => "MIT"}}
 ```
 
 See `MetaDep` for complete documentation and usage examples.
