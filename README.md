@@ -56,19 +56,19 @@ $ mix escript.install
 
 ```bash
 $ meta_dep -p ./deps -ld bunt
-{"bunt", %{"Licenses" => "MIT, Apache2"}}
+{"bunt", %{"Licenses" => "MIT"}}
 ```
 
 ### More Mix Task Usage Examples
 
 ```
 $ mix meta_dep -p ./deps -ld bunt
-{"bunt", %{"Licenses" => "MIT, Apache2"}}
+{"bunt", %{"Licenses" => "MIT"}}
 
 $ mix meta_dep -p ./deps -vd bunt
 {"bunt",
   %{
-    "Licenses" => "MIT, Apache2",
+    "Licenses" => "MIT",
     "Maintainers" => "René Föhring",
     "Repo" => "https://github.com/rrrene/bunt"
   }}
