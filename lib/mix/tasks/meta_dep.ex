@@ -11,7 +11,7 @@ defmodule Mix.Tasks.MetaDep do
   Usage:
   ```
   $ mix meta_dep -p ./deps -ld bunt
-  {"bunt", %{"Licenses" => "MIT, Apache2"}}
+  {"bunt", %{"Licenses" => "MIT"}}
   ```
   """
 

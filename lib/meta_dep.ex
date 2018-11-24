@@ -23,18 +23,18 @@ defmodule MetaDep do
   ## Usage:
   ```
   $ mix meta_dep -p ./deps -ld bunt
-  {"bunt", %{"Licenses" => "MIT, Apache2"}}
+  {"bunt", %{"Licenses" => "MIT"}}
 
   $ mix meta_dep -p ./deps -vd bunt
   {"bunt",
     %{
-      "Licenses" => "MIT, Apache2",
+      "Licenses" => "MIT",
       "Maintainers" => "René Föhring",
       "Repo" => "https://github.com/rrrene/bunt"
     }}
 
   $ mix meta_dep -l
-    {"bunt", %{"Licenses" => "MIT, Apache2"}}
+    {"bunt", %{"Licenses" => "MIT"}}
     {"chumak", %{"Licenses" => "MPLv2"}}
     {"cowboy", %{"Licenses" => "ISC"}}
     {"cowlib", %{"Licenses" => "ISC"}}
