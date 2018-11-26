@@ -142,7 +142,6 @@ defmodule MetaDep do
             ""
         end
 
-      content
       String.replace(content, "\n", "")
       |> String.split(@end_of_term)
       |> Enum.map(fn line -> {dep_name, extract(line)} end)
@@ -207,6 +206,13 @@ defmodule MetaDep do
      |> String.replace(~r/licenses,\s+/i, "")}
   end
 
+  defp extract("Version" <> dirty_version) do
+    {"Version",
+    dirty_version
+    |> replace_common()
+    |> String.replace(~r/version,\s+/i, "")}
+  end
+
   defp extract("Maintaners" <> dirty_maintainers) do
     {"Maintainers",
      dirty_maintainers
@@ -225,9 +231,10 @@ defmodule MetaDep do
 
   defp extract(line) do
     cond do
-      Regex.match?(~r/GitHub/i, line) -> extract("Repo" <> line)
+      Regex.match?(~r/github/i, line) -> extract("Repo" <> line)
       Regex.match?(~r/maintainers/i, line) -> extract("Maintaners" <> line)
       Regex.match?(~r/licenses/i, line) -> extract("Licenses" <> line)
+      Regex.match?(~r/version/i, line) -> extract("Version" <> line)
       true -> ""
     end
   end
